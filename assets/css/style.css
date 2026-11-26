@@ -77,9 +77,13 @@ nav a:hover { background: var(--teal-light); }
   background:
     var(--grid-blueprint),
     radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.18), transparent 55%),
-    linear-gradient(135deg, var(--teal-dark), var(--teal) 60%, #2bb3ad);
+    /* teal "blueprint" tint over the photo so text stays readable */
+    linear-gradient(135deg, rgba(8,87,92,.94), rgba(15,138,138,.86) 55%, rgba(43,179,173,.55)),
+    var(--hero-photo, none) center 30% / cover no-repeat,
+    var(--teal-dark);
   color: #fff;
   padding-block: 64px 72px;
+  position: relative;
   border-bottom: 1px solid var(--teal-dark);
   box-shadow: 0 2px 0 rgba(8, 87, 92, .15);
 }
@@ -187,6 +191,40 @@ details:not([open])::details-content { block-size: 0; }
 .card h3::before { content: "///"; }
 .card p { margin: 0; color: var(--muted); }
 
+/* ---- Photos (from Unsplash; URLs and credits live in index.html) ---- */
+.photo-credit, figcaption { font-size: .75rem; color: var(--muted); }
+figcaption a, .photo-credit a { color: inherit; }
+.photo-credit {
+  position: absolute; right: 12px; bottom: 6px; margin: 0;
+  color: rgba(255,255,255,.75);
+}
+
+/* Service panels: photo on the left, text on the right (stacked on phones) */
+.panel:has(> .svc-photo) {
+  display: grid; grid-template-columns: minmax(180px, 260px) 1fr;
+  column-gap: 22px; align-items: start; padding-inline-start: 18px;
+}
+.panel > .svc-photo { grid-row: 1 / span 4; }
+.panel > :not(.svc-photo) { grid-column: 2; }
+.svc-photo { margin: 0; }
+.svc-photo img, .about-photo img {
+  display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover;
+  border-radius: 10px; border: 1px solid #d3ebea; background: var(--teal-light);
+}
+.svc-photo figcaption { margin-top: 4px; }
+@media (max-width: 640px) {
+  .panel:has(> .svc-photo) { grid-template-columns: 1fr; }
+  .panel > .svc-photo { grid-row: auto; margin-bottom: 12px; }
+  .panel > :not(.svc-photo) { grid-column: 1; }
+}
+
+.about-photo { margin: 0 0 20px; }
+.about-photo img {
+  aspect-ratio: 8 / 3; border-radius: var(--radius);
+  outline: 1px dashed var(--mark); outline-offset: 5px; /* blueprint-style frame */
+}
+.about-photo figcaption { text-align: end; margin-top: 8px; }
+
 /* Contact */
 .contact {
   background: var(--grid-blueprint), linear-gradient(135deg, var(--teal-dark), var(--teal));
@@ -206,3 +244,4 @@ details:not([open])::details-content { block-size: 0; }
 }
 
 footer { text-align: center; color: var(--muted); font-size: .9rem; padding-block: 28px; }
+.panel figcaption a { font-weight: 400; color: inherit; }
